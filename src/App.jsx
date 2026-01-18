@@ -4,7 +4,8 @@ import * as bootstrap from "bootstrap";
 import ProductModal from "./assets/components/ProductModal";
 import TemplateModal from "./assets/components/TemplateModal";
 import AlertModal from "./assets/components/AlertModal";
-import Card from "./assets/components/Card";
+import Product from "./assets/pages/Product";
+import Auth from "./assets/pages/Auth";
 
 // 定義參數
 const API_BASE = import.meta.env.VITE_API_BASE;
@@ -195,78 +196,21 @@ function App() {
       {isAuth ? (
         <>
           {/* 產品內頁 */}
-          <div className="container text-center py-5">
-            <header>
-              <h1>賣場商品</h1>
-              <div className="d-flex">
-                <button
-                  className="btn btn-primary ms-auto me-3"
-                  onClick={() => openTemplateModal()}
-                >
-                  新增商品
-                </button>
-                <button className="btn btn-sm" onClick={logout}>
-                  登出
-                </button>
-              </div>
-            </header>
-            <section className="py-5">
-              <div className="row row-cols-2">
-                {products.map((product) => {
-                  return (
-                    <div className="col g-3" key={product.id}>
-                      <Card
-                        product={product}
-                        openProductModal={openProductModal}
-                      />
-                    </div>
-                  );
-                })}
-              </div>
-            </section>
-          </div>
+          <Product
+            openProductModal={openProductModal}
+            openTemplateModal={openTemplateModal}
+            logout={logout}
+            products={products}
+          ></Product>
         </>
       ) : (
         <>
-          {/* 登入表單 */}
-          <div className="container h-100 d-flex align-items-center justify-content-center">
-            <form onSubmit={checkLogin}>
-              <div className="mb-3">
-                <label htmlFor="AuthInputEmail" className="form-label">
-                  信箱
-                </label>
-                <input
-                  type="email"
-                  name="username"
-                  className="form-control"
-                  id="AuthInputEmail"
-                  aria-describedby="emailHelp"
-                  value={authInput.username}
-                  onChange={(e) => getAuthInput(e)}
-                  required
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="AuthInputPassword" className="form-label">
-                  密碼
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  className="form-control"
-                  id="AuthInputPassword"
-                  value={authInput.password}
-                  onChange={(e) => getAuthInput(e)}
-                  required
-                />
-              </div>
-              <div className="d-flex">
-                <button type="submit" className="btn btn-primary ms-auto">
-                  登入
-                </button>
-              </div>
-            </form>
-          </div>
+          {/* 登入頁 */}
+          <Auth
+            getAuthInput={getAuthInput}
+            checkLogin={checkLogin}
+            authInput={authInput}
+          />
         </>
       )}
 
